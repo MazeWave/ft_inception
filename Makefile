@@ -21,6 +21,6 @@ build:
 	docker build ./scrs/requirements/nginx -t nginx
 
 run:
-	docker run $(USE_TERMINAL) --entrypoint /bin/sh nginx
+	docker run -p 443:443 $(USE_TERMINAL) --entrypoint /bin/sh nginx
 
 all: build run
