@@ -1,4 +1,5 @@
 FROM alpine:3.20.0
+EXPOSE 443
 
 ## Config and install packages
 RUN apk update
@@ -30,16 +31,3 @@ RUN chown -R nginx:nginx /var/www/html
 
 ## Start nginx in the container
 CMD [ "nginx", "-g", "daemon off;" ]
-
-
-
-
-
-
-
-
-# Restart nginx in the container
-# RUN systemctl restart nginx
-
-# Check nginx daemon status (should be off by default)
-# RUN systemctl status nginx
