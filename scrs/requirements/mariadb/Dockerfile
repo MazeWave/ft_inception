@@ -16,7 +16,7 @@ RUN chown -R mysql:mysql /run/mysqld /var/lib/mysql
 # RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql #done in the script
 
 # Copy our mariadb config file
-COPY conf/my.cnf /etc/my.cnf
+COPY conf/mariadb.conf /etc/my.cnf
 RUN chown -R mysql:mysql /etc/my.cnf
 
 COPY conf/start_mariadb.sh /etc/start_mariadb.sh
@@ -26,6 +26,6 @@ RUN /etc/start_mariadb.sh
 # RUN mysql_secure_installation
 # RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
-# Launch mariadb
+# Start mariadb
 USER mysql
-CMD ["mysqld_safe", "--user=mysql", "--datadir=/var/lib/mysql"]
+CMD ["mysqld_safe", "--user=mysql", "--datadir=/var/lib/mysql;"]

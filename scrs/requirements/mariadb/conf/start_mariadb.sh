@@ -19,7 +19,6 @@ mysql -e "FLUSH PRIVILEGES;"
 
 mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
 
-exec mysqld_safe
-
 # Start mariadb
-exec su-exec mysql mariadbd --datadir=/var/lib/mysql --user=mysql
+exec mysqld_safe
+# exec su-exec mysql mariadbd --datadir=/var/lib/mysql --user=mysql
