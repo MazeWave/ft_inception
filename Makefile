@@ -42,13 +42,15 @@ run_mariadb:
 	docker run --entrypoint /bin/sh mariadb
 
 build_wordpress:
-	docker build $(WORDPRESS_PATH) -t nginx
+	docker build $(WORDPRESS_PATH) -t wordpress
 
 run_wordpress_t:
 	docker run -p 9000:9000 -it --entrypoint /bin/sh wordpress
+	# docker exec -it wordpress sh
 
 run_wordpress:
 	docker run -p 9000:9000  --entrypoint /bin/sh wordpress
+	# docker exec wordpress sh
 
 mariadb: clean build_mariadb run_mariadb_t
 
