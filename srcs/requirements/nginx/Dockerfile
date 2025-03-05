@@ -3,7 +3,6 @@ EXPOSE 443
 
 ## Config and install packages
 RUN apk update
-RUN apk add curl -q
 RUN apk add vim -q
 
 # Copy our conf file inside the container

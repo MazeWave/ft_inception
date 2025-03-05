@@ -85,4 +85,6 @@ stop:
 # 	docker rm mariadb
 # 	docker rm wordpress
 
+re: stop clean build
+
 all: stop start

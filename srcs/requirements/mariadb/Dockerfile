@@ -6,14 +6,8 @@ EXPOSE 3306
 RUN apk update
 RUN apk add --no-cache mariadb mariadb-client su-exec openrc
 
-# RUN mkdir -p /var/lib/mysql   #done in the script
-# RUN chown -R mysql:mysql /var/lib/mysql   #done in the script
-
-RUN mkdir -p /run/mysqld
+RUN mkdir -p /run/mysqld /var/lib/mysql
 RUN chown -R mysql:mysql /run/mysqld /var/lib/mysql
-
-# Initialize the MariaDB database
-# RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql #done in the script
 
 # Copy our mariadb config file
 COPY conf/mariadb.conf /etc/my.cnf
@@ -21,11 +15,8 @@ RUN chown -R mysql:mysql /etc/my.cnf
 
 COPY conf/start_mariadb.sh /etc/start_mariadb.sh
 RUN chmod 755 /etc/start_mariadb.sh
-RUN /etc/start_mariadb.sh
-
-# RUN mysql_secure_installation
-# RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
 # Start mariadb
-USER mysql
-CMD ["mysqld_safe", "--user=mysql", "--datadir=/var/lib/mysql;"]
+# USER mysql
+USER root
+CMD ["/etc/start_mariadb.sh"]

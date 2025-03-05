@@ -3,7 +3,7 @@ EXPOSE 9000
 
 # Install required packages and dependencies
 RUN apk update
-RUN apk add --no-cache wget php83 php83-fpm php83-mysqli mariadb-client
+RUN apk add --no-cache wget php83 php83-fpm php83-mysqli php-phar mariadb-client
 
 # Install wordpress using wget
 RUN mkdir -p /var/www
