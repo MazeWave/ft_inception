@@ -8,16 +8,21 @@ services:
     - "80:80"
     networks:
       - inception
+    restart: unless_stopped
   mariadb:
     build: requirements/mariadb
     container_name: mariadb
     networks:
       - inception
+    restart: unless_stopped
   wordpress:
     build: requirements/wordpress
     container_name: mariwordpressadb
     networks:
       - inception
+    depends_on:
+      - nginx
+    restart: unless_stopped
 
 networks:
   inception:
