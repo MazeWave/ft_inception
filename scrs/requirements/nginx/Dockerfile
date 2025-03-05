@@ -30,4 +30,7 @@ RUN chmod -R 755 /var/www/html
 RUN chown -R nginx:nginx /var/www/html
 
 ## Start nginx in the container
-CMD [ "nginx", "-g", "daemon off;" ]
+COPY /conf/entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh;" ]
+# CMD [ "nginx", "-g", "daemon off;" ]
