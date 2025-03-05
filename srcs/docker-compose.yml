@@ -1,0 +1,24 @@
+version: '3'
+services:
+  nginx:
+    build: requirements/nginx
+    container_name: nginx
+    ports:
+    - "443:443"
+    - "80:80"
+    networks:
+      - inception
+  mariadb:
+    build: requirements/mariadb
+    container_name: mariadb
+    networks:
+      - inception
+  wordpress:
+    build: requirements/wordpress
+    container_name: mariwordpressadb
+    networks:
+      - inception
+
+networks:
+  inception:
+    driver: bridge
