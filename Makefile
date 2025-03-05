@@ -1,24 +1,8 @@
-# Define colors
-# RESET		= \033[0m
-# WHITE		= \033[37m
-
-# BOLD		= \033[1m
-# UNDERLINE	= \033[4m
-
-# RED			= \033[31m
-# GREEN		= \033[32m
-# YELLOW		= \033[33m
-# BLUE		= \033[34m
-# MAGENTA		= \033[35m
-# CYAN		= \033[36m
-
 # Paths
+COMPOSE_PATH		:= ./scrs/
 NGINX_PATH			:= ./scrs/requirements/nginx
 MARIADB_PATH		:= ./scrs/requirements/mariadb
 WORDPRESS_PATH		:= ./scrs/requirements/wordpress
-
-clean:
-	docker system prune -fa
 
 # fclean:
 # 	docker system prune -fa
@@ -74,15 +58,31 @@ clean:
 # wordpress: clean build_wordpress run_wordpress
 
 # all: stop_all clean build_nginx build_mariadb build_wordpress run_nginx run_mariadb run_wordpress
-build: docker compose build
 
-start: docker compose up -d
+clean:
+	docker system prune -fa
 
-stop: docker compose down
+enter_nginx:
+	docker exec -it nginx /bin/sh
 
-reset:
-	docker rm nginx
-	docker rm mariadb
-	docker rm wordpress
+enter_mariadb:
+	docker exec -it mariadb /bin/sh
+
+enter_wordpress:
+	docker exec -it wordpress /bin/sh
+
+build:
+	cd ./srcs && docker compose up --build
+
+start:
+	cd ./srcs && docker compose up -d
+
+stop:
+	cd ./srcs && docker compose down
+
+# reset: clean
+# 	docker rm nginx
+# 	docker rm mariadb
+# 	docker rm wordpress
 
 all: stop start

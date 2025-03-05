@@ -1,4 +1,3 @@
-version: '3'
 services:
   nginx:
     build: requirements/nginx
@@ -8,22 +7,24 @@ services:
     - "80:80"
     networks:
       - inception
-    restart: unless_stopped
+    restart: always
   mariadb:
     build: requirements/mariadb
     container_name: mariadb
     networks:
       - inception
-    restart: unless_stopped
+    restart: always
   wordpress:
     build: requirements/wordpress
-    container_name: mariwordpressadb
+    container_name: wordpress
     networks:
       - inception
     depends_on:
       - nginx
-    restart: unless_stopped
+    restart: always
 
 networks:
   inception:
     driver: bridge
+
+# volumes:
