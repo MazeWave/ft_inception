@@ -72,7 +72,7 @@ enter_wordpress:
 	docker exec -it wordpress /bin/sh
 
 build:
-	cd ./srcs && docker compose up --build
+	cd ./srcs && docker compose up --build -d
 
 start:
 	cd ./srcs && docker compose up -d
