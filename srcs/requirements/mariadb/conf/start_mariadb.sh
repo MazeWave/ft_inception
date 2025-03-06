@@ -1,33 +1,39 @@
 #!/bin/sh
 
-if [ ! -d "/var/lib/mysql/" ];
-then
-    echo "Initializing MariaDB..."
-    mkdir -p /var/lib/mysql
-    chown -R mysql:mysql /var/lib/mysql
+# Install MariaDB
+echo "Initializing MariaDB..."
+mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
-    # Initialize the MariaDB database
-    mysql_install_db --user=mysql --datadir=/var/lib/mysql
-    echo "MariaDB initialized"
-fi
+mysqld --datadir=/var/lib/mysql --skip-networking --user=mysql &
+sleep 5
+echo "MariaDB initialized "
 
+# Check if MariaDB is working
 echo "Waiting for MariaDB to start..."
-until mariadb-admin ping --silent; do
+i = 0
+until mariadb-admin ping --silent
+do
     sleep 1
+    if [ $i -gt 10 ]
+    then
+        echo "Mariadb did not start ! Aborting..."
+        exit 1
+    fi
+    i=$((i + 1))
 done
 echo "MariaDB started"
 
-# from http://tuto.grademe.fr/inception/#mariadb
-mariadb -e -u root "FLUSH PRIVILEGES;"
-mariadb -e -u root "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
+# Create databse
+echo "Creating database..."
+mysql -e "FLUSH PRIVILEGES;"
+mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
 
-mariadb -e -u root "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
-mariadb -e -u root "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
-mariadb -e -u root "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
+mysql -p"${SQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
+mysql -p"${SQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
+mysql -p"${SQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
+echo "Database created"
 
-mariadb-admin -u root -p$SQL_ROOT_PASSWORD shutdown
-
-# Start mariadb
-exec /usr/bin/mysql --user=mysql --console
-
-# exec mysqld_safe
+# Restart mariadb
+echo "Restarting MariaDB..."
+mysqladmin -u root -p"$SQL_ROOT_PASSWORD" shutdown
+exec mysqld_safe --user=mysql

@@ -12,15 +12,12 @@ services:
   mariadb:
     build: requirements/mariadb
     container_name: mariadb
-    environment:
-      SQL_ROOT_PASSWORD: ${SQL_ROOT_PASSWORD}
-      SQL_DATABASE: ${SQL_DATABASE}
-      SQL_USER: ${SQL_USER}
-      SQL_PASSWORD: ${SQL_PASSWORD}
     networks:
       - inception
     restart: always
     env_file: .env
+    expose:
+      - 3306
   wordpress:
     build: requirements/wordpress
     container_name: wordpress
@@ -30,6 +27,8 @@ services:
       - mariadb
     restart: always
     env_file: .env
+    expose:
+      - 9000
 
 networks:
   inception:
