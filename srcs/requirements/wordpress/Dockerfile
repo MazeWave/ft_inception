@@ -15,9 +15,8 @@ RUN rm -f /var/www/wordpress-6.7-fr_FR.tar.gz
 
 # Configure wordpress
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -P /usr/local/bin/wp
-RUN mv /usr/local/bin/wp/wp-cli.phar /usr/local/bin/wp/wp
 RUN chown -R root:root /usr/local/bin/wp
-RUN chmod 755 /usr/local/bin/wp/wp
+RUN chmod -R +x /usr/local/bin/wp/
 
 # Configure php-fpm
 COPY /conf/www.conf /etc/php83/php-fpm.d/www.conf
@@ -30,4 +29,4 @@ CMD [ "/auto_config.sh" ]
 # Worpress pages html/php located at
 # /usr/src/wordpress
 
-# personne chaud sur inception : yenaiji
+# personne chaud sur inception : yenaiji et hulefevr

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Install MariaDB
+# Initialize MariaDB
 echo "Initializing MariaDB..."
 mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
