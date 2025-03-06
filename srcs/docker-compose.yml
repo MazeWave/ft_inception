@@ -4,33 +4,47 @@ services:
     container_name: nginx
     ports:
     - "443:443"
-    - "80:80"
     networks:
       - inception
+    depends_on:
+      - wordpress
     restart: always
   mariadb:
     build: requirements/mariadb
     container_name: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wp_user
-      MYSQL_PASSWORD: user_password
+      SQL_ROOT_PASSWORD: ${SQL_ROOT_PASSWORD}
+      SQL_DATABASE: ${SQL_DATABASE}
+      SQL_USER: ${SQL_USER}
+      SQL_PASSWORD: ${SQL_PASSWORD}
     networks:
       - inception
     restart: always
+    env_file: .env
   wordpress:
     build: requirements/wordpress
     container_name: wordpress
     networks:
       - inception
     depends_on:
-      - nginx
+      - mariadb
     restart: always
+    env_file: .env
 
 networks:
   inception:
     driver: bridge
 
-# volumes:
-#   - ./mysql_data:/var/lib/mysql
+volumes:
+  wordpress:
+    driver: local # ici nous stockons le volume en local
+    driver_opts:
+      type: 'none' 									# aucun type spécifique
+      o: 'bind'
+      device: '/home/ldalmass/data/wordpress' 		#Ou stocker le dossier sur votre ordinateur en local
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none' 
+      o: 'bind'										 # Les Bind Mounts sont des volumes qui se montent sur un chemin d'accès à l'hôte, et ils peuvent être modifiés par d'autres processus en dehors de docker.
+      device: '/home/ldalmass/data/mariadb'			#Ou stocker le dossier sur votre ordinateur en local

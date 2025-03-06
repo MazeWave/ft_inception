@@ -2,6 +2,14 @@
 
 sleep 10
 
+echo "Waiting for MariaDB to start..."
+while ! mysqladmin ping -h "mariadb" --silent;
+do
+    sleep 1
+done
+
+echo "MariaDB is up - proceeding with WordPress setup."
+
 if [ ! -f "/var/www/wordpress/wp-config.php" ];
 then
     /usr/local/bin/wp/wp config create \

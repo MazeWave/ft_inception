@@ -11,10 +11,7 @@ RUN chown -R root:root /var/www
 
 RUN wget https://fr.wordpress.org/wordpress-6.7-fr_FR.tar.gz
 RUN tar -xvf wordpress-6.7-fr_FR.tar.gz -C /var/www
-RUN rm -f wordpress-6.7-fr_FR.tar.gz
-
-# Configure php-fpm
-COPY /conf/www.conf /etc/php83/php-fpm.d/www.conf
+RUN rm -f /var/www/wordpress-6.7-fr_FR.tar.gz
 
 # Configure wordpress
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -P /usr/local/bin/wp
@@ -22,10 +19,13 @@ RUN mv /usr/local/bin/wp/wp-cli.phar /usr/local/bin/wp/wp
 RUN chown -R root:root /usr/local/bin/wp
 RUN chmod 755 /usr/local/bin/wp/wp
 
+# Configure php-fpm
+COPY /conf/www.conf /etc/php83/php-fpm.d/www.conf
+
 # Start wordpress
 COPY conf/auto_config.sh /
 RUN chmod 755 /auto_config.sh
-CMD ["/bin/sh", "-c", "/auto_config.sh && php-fpm83 -F;"]
+CMD [ "/auto_config.sh" ]
 
 # Worpress pages html/php located at
 # /usr/src/wordpress
