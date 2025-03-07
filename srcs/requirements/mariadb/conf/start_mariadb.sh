@@ -10,8 +10,8 @@ echo "MariaDB initialized "
 
 # Check if MariaDB is working
 echo "Waiting for MariaDB to start..."
-i = 0
-until mariadb-admin ping --silent
+i=0
+until mysqladmin ping --silent
 do
     sleep 1
     if [ $i -gt 10 ]
@@ -35,5 +35,5 @@ echo "Database created"
 
 # Restart mariadb
 echo "Restarting MariaDB..."
-mysqladmin -u root -p"$SQL_ROOT_PASSWORD" shutdown
+mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
 exec mysqld_safe --user=mysql
