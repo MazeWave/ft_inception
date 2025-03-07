@@ -30,17 +30,15 @@ then
         --title="inception" \
         --admin_user="${ADMIN_USER}" \
         --admin_password="${ADMIN_PASSWORD}" \
-        --admin_email="${ADMIN_EMAIL}" \
-        --skip-email
-        # --debug
-        # --admin_email=ldalmass@student.42nice.fr \
-        echo "passed env email : " "${ADMIN_EMAIL}"
+        --admin_email="${ADMIN_EMAIL}"
     wp user create \
         "${EVAL_USER}" \
         "${EVAL_EMAIL}" \
         --user_pass="${SQL_PASSWORD}" \
         --role=author
 fi
+
+chmod -R 755 /var/www/html
 
 echo "Wordpress setup completed"
 

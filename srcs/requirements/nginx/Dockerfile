@@ -21,12 +21,5 @@ RUN openssl req -x509 -nodes \
 RUN apk add nginx
 RUN mkdir -p /var/run/nginx
 
-## PHP request redirection
-RUN mkdir -p /var/www/html
-# for root
-RUN chmod -R 755 /var/www/html
-# for users
-RUN chown -R nginx:nginx /var/www/html
-
 ## Start nginx in the container
 CMD [ "nginx", "-g", "daemon off;" ]
