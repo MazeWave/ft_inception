@@ -88,3 +88,7 @@ stop:
 re: stop clean build
 
 all: stop start
+
+# all: $(NAME)
+
+# $(NAME): stop start

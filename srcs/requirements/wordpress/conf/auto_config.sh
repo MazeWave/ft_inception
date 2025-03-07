@@ -10,29 +10,35 @@ done
 echo "MariaDB is up"
 
 echo "Wordpress setup..."
-if [ ! -f "/var/www/wordpress/wp-config.php" ];
+if [ ! -f "/wp-config.php" ];
 then
-    # TODO FIX PERMISSION FOR /usr/local/bin/wp COMMAND
-    /usr/local/bin/wp config create \
+    sed -i 's/memory_limit = 128M/memory_limit = 512M/' /etc/php83/php.ini
+    wp core download \
+        --path="/var/www/html"
+    cd /var/www/html
+    wp config create \
         --allow-root \
-        --dbname="$SQL_DATABASE" \
-        --dbuser="$SQL_USER" \
-        --dbpass="$SQL_PASSWORD" \
+        --dbname="${SQL_DATABASE}" \
+        --dbuser="${SQL_USER}" \
+        --dbpass="${SQL_PASSWORD}" \
         --dbhost=mariadb:3306 \
         --dbcharset="utf8" \
         --dbcollate="utf8_general_ci" \
-        --path="/var/www/wordpress"
-    /usr/local/bin/wp core install \
-        --url="$DOMAIN_NAME" \
+        --path="/var/www/html"
+    wp core install \
+        --url="${DOMAIN_NAME}" \
         --title="inception" \
-        --admin_user="$ADMIN_USER" \
-        --admin_password="ADMIN_PASSWORD" \
+        --admin_user="${ADMIN_USER}" \
+        --admin_password="${ADMIN_PASSWORD}" \
+        --admin_email="${ADMIN_EMAIL}" \
         --skip-email
-        # --admin_email="$ADMIN_EMAIL" \
-    /usr/local/bin/wp create user \
-        "$EVAL_USER" \
-        "$EVAL_EMAIL" \
-        --user_pass="$SQL_PASSWORD" \
+        # --debug
+        # --admin_email=ldalmass@student.42nice.fr \
+        echo "passed env email : " "${ADMIN_EMAIL}"
+    wp user create \
+        "${EVAL_USER}" \
+        "${EVAL_EMAIL}" \
+        --user_pass="${SQL_PASSWORD}" \
         --role=author
 fi
 
