@@ -33,8 +33,9 @@ then
         "$EVAL_USER" \
         "$EVAL_EMAIL" \
         --user_pass="$SQL_PASSWORD" \
-        --role=author \
+        --role=author
 fi
+
 echo "Wordpress setup completed"
 
 # mkdir -p /run/php
