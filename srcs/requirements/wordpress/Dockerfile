@@ -10,7 +10,8 @@ RUN apk add --no-cache \
     php83-mysqli \
     php-phar \
     php83-iconv \
-    mariadb-client
+    mariadb-client \
+    -q
 
 # Install wordpress using wget
 RUN mkdir -p /var/www
