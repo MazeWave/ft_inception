@@ -4,11 +4,11 @@ EXPOSE 3306
 # Intall mariadb
 RUN apk update
 RUN apk add --no-cache \
-mariadb \
-mariadb-client \
-su-exec \
-openrc \
--q
+    mariadb \
+    mariadb-client \
+    su-exec \
+    openrc \
+    -q
 
 # Create necessaries directories to store database
 RUN mkdir -p /run/mysqld /var/lib/mysql

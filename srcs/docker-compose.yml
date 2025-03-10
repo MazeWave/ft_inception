@@ -2,6 +2,7 @@ services:
   nginx:
     build: requirements/nginx
     container_name: nginx
+    image: nginx
     ports:
     - "443:443"
     networks:
@@ -12,6 +13,7 @@ services:
   mariadb:
     build: requirements/mariadb
     container_name: mariadb
+    image: mariadb
     networks:
       - inception
     restart: always
@@ -23,6 +25,7 @@ services:
   wordpress:
     build: requirements/wordpress
     container_name: wordpress
+    image: wordpress
     networks:
       - inception
     depends_on:
