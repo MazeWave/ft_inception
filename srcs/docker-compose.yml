@@ -18,8 +18,8 @@ services:
     env_file: .env
     expose:
       - 3306
-    # volumes:
-    #   - mariadb:/var/lib/mysql
+    volumes:
+      - mariadb:/var/lib/mysql
   wordpress:
     build: requirements/wordpress
     container_name: wordpress
@@ -31,8 +31,8 @@ services:
     env_file: .env
     expose:
       - 9000
-    # volumes:
-    #   - wordpress:/var/www/html
+    volumes:
+      - wordpress:/var/www/html
 
 networks:
   inception:
