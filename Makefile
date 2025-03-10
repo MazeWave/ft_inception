@@ -63,7 +63,7 @@ logs_nginx:
 logs_wordpress:
 	cd ./srcs && docker compose logs -f wordpress
 
-re: stop clean build
+re: stop build
 
 reset: stop clean volumes_clean build
 
