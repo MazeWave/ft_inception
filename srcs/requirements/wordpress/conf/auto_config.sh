@@ -34,7 +34,7 @@ then
     wp user create \
         "${EVAL_USER}" \
         "${EVAL_EMAIL}" \
-        --user_pass="${SQL_PASSWORD}" \
+        --user_pass="${EVAL_PASSWORD}" \
         --role=author
 fi
 

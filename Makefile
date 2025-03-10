@@ -35,10 +35,11 @@ start:
 stop:
 	cd ./srcs && docker compose down
 
-clean:
+clean: stop
 	docker system prune -fa
 
-volumes_clean:
+volumes_clean: stop
+	docker volume rm srcs_mariadb srcs_wordpress
 	docker system prune -fa --volumes
 	sudo rm -rf /home/ldalmass/data
 	mkdir /home/ldalmass/data
